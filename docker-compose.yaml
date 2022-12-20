@@ -1,0 +1,32 @@
+
+version: '3.7'
+services:
+  nginx:
+    image: nginx
+    user: root
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./${NGINX_CONF}:/etc/nginx/nginx.conf
+      - /etc/ssl/web:/etc/ssl/certs/nginx:ro
+      - /etc/ssl/web/certbot/conf:/etc/letsencrypt:ro
+      - /etc/ssl/web/certbot/www:/var/www/certbot:ro
+    ports:
+      - 80:80
+      - 443:443
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    user: root
+    volumes: 
+      - /etc/ssl/web/certbot/conf:/etc/letsencrypt:rw
+      - /etc/ssl/web/certbot/www:/var/www/certbot:rw
+      - /etc/ssl/web/certbot/log:/var/log/letsencrypt:rw 
+    command:  certonly --webroot --webroot-path /var/www/certbot/   -d  it.dahmene.com --email dahmen.com@gmail.com --agree-tos
+  
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
