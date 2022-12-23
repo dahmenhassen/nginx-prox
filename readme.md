@@ -1,3 +1,11 @@
+docker-compose run certbot   certonly --webroot --webroot-path /var/www/certbot/   -d  it.dahmene.com --email dahmen.com@gmail.com --agree-tos
+
+
+
+
+
+
+
  docker-compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d  it.dahmene.com
 
 ./etc/crontab:
